@@ -7,6 +7,8 @@ import react from "@astrojs/react";
 
 import mdx from "@astrojs/mdx";
 
+import vercel from "@astrojs/vercel";
+
 export default defineConfig({
   server: {
     host: true,
@@ -19,6 +21,8 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
 
-  integrations: [react(), mdx()],
   // output: server
+  integrations: [react(), mdx()],
+
+  adapter: vercel()
 });
