@@ -1,5 +1,5 @@
 ---
-import StarRating from './StarRating.astro';
+import StarRatingReact from './StarRatingReact.jsx';
 import "../styles/global.css";
 interface Props {
   nombre: string;
@@ -32,7 +32,7 @@ const badgeColor = estado === "completado" ? "bg-emerald-100 text-emerald-700" :
 
     <!-- Estrellas integradas dentro de la card -->
     <div class="rating-section px-6 pb-2">
-      <StarRating projectId={slug} />
+      <StarRatingReact projectId={slug} client:load />
     </div>
 
     <div class="card-footer px-6 pb-6 pt-2 flex justify-between items-center">
