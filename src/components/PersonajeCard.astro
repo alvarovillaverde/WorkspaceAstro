@@ -1,0 +1,81 @@
+---
+// src/components/PersonajeCard.astro
+
+interface Props {
+  name: string;
+  image: string;
+}
+
+const { name, image} = Astro.props;
+---
+
+<article class="card">
+  <div class="card-imagen">
+    <img src={image} alt={name} loading="lazy" />
+  </div>
+  <div class="card-contenido">
+    <h3>{name}</h3>
+  </div>
+</article>
+
+<style>
+  .card {
+    background-color: #1e293b;
+    color: #f8fafc;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  }
+
+  .card-imagen img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card-contenido {
+    padding: 1rem;
+  }
+
+  .card-contenido h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+  }
+
+  .status {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .indicador {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .indicador.alive {
+    background-color: #22c55e;
+  }
+
+  .indicador.dead {
+    background-color: #ef4444;
+  }
+
+  .indicador.unknown {
+    background-color: #94a3b8;
+  }
+</style>

@@ -1,0 +1,46 @@
+---
+// src/pages/api_rick_morty.astro
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PersonajeCard from "../components/PersonajeCard.astro";
+
+interface Personaje {
+  name: string;
+  image: string;
+}
+
+const res = await fetch("https://rickandmortyapi.com/api/character");
+const datos = await res.json();
+const personajes: Personaje[] = datos.results;
+---
+
+<BaseLayout>
+  <main>
+    <h1 class="titulo">Personajes de Rick y Morty</h1>
+    
+    <section class="grid-personajes">
+      {personajes.map((personaje: Personaje) => (
+        <PersonajeCard
+          name={personaje.name}
+          image={personaje.image}
+        />
+      ))}
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .titulo {
+    text-align: center;
+    margin-top: 2rem;
+    color: #040404;
+  }
+
+  .grid-personajes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+</style>
