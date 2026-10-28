@@ -18,7 +18,7 @@ const { projectId } = Astro.props;
   <span class="rating-status"></span>
 </div>
 
-<script>
+<script is:inline>
   // Función con tipos declarados para quitar los subrayados rojos de TypeScript
   function highlightStars(starsNodeList: NodeListOf<HTMLButtonElement>, value: number): void {
     starsNodeList.forEach((star: HTMLButtonElement) => {
