@@ -104,14 +104,15 @@ const { projectId } = Astro.props;
   }
 
   .star {
-    background: transparent;
-    border: none;
+    background: #f3f4f6;
+    border: 2px solid #d1d5db;
+    border-radius: 50%;
     font-size: 1.5rem;
-    color: #cbd5e1;
+    color: #374151;
     cursor: pointer;
-    padding: 0;
+    padding: 0.25rem 0.4rem;
     line-height: 1;
-    transition: color 0.15s ease, transform 0.15s ease;
+    transition: color 0.15s ease, transform 0.15s ease, background 0.15s ease;
   }
 
   .star:hover {
