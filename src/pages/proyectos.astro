@@ -1,6 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProyectoCard from '../components/ProyectoCard.astro';
+
+// Importa las imágenes como objetos de metadatos
+import imgJuegoDelAmor from '../images/JuegoDelAmor.png';
+import imgCartasDigitales from '../images/CartasDigitales.png';
 ---
 
 <BaseLayout title="Mi Portafolio - Proyectos">
@@ -12,7 +16,7 @@ import ProyectoCard from '../components/ProyectoCard.astro';
       <ProyectoCard
         nombre="Juego Del Amor"
         slug="juego-del-amor"
-        imagen="../images/JuegoDelAmor.png"
+        imagen={imgJuegoDelAmor}
         categoria="Juego Web / Fútbol"
         estado="completado"
         descripcion="Adivina el futbolista con pistas reveladas. Un juego interactivo para los amantes del fútbol con sistema de racha, puntos y desafíos diarios."
@@ -22,7 +26,7 @@ import ProyectoCard from '../components/ProyectoCard.astro';
       <ProyectoCard
         nombre="Cartas Digitales Villaverde"
         slug="cartas-digitales"
-        imagen="../images/CartasDigitales.png"
+        imagen={imgCartasDigitales}
         categoria="E-Commerce / Diseño Web"
         estado="completado"
         descripcion="Landing profesional para vender cartas digitales de menú a restaurantes. Modelos clásicos, modernos y híbridos con precios transparentes, demo en vivo y contacto directo por WhatsApp."

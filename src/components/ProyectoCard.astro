@@ -4,12 +4,14 @@ import "../styles/global.css";
 interface Props {
   nombre: string;
   slug: string;
-  imagen: string;
+  imagen: ImageMetadata;
   categoria: string;
   estado: string;
   descripcion: string;
   link: string;
 }
+
+import { Image } from 'astro:assets';
 
 const { nombre, slug, imagen, categoria, estado, descripcion, link } = Astro.props;
 
@@ -24,7 +26,7 @@ const badgeColor = estado === "completado" ? "bg-emerald-100 text-emerald-700" :
 
   <div class="card-body">
     <div class="preview mb-4">
-      <img src={imagen} alt={nombre} loading="lazy" class="w-full h-48 object-cover rounded-t-xl" />
+      <Image src={imagen} alt={nombre} loading="lazy" class="w-full h-48 object-cover rounded-t-xl" />
     </div>
     <p class="card-desc px-6 text-slate-500 text-sm leading-relaxed mb-4">{descripcion}</p>
 
