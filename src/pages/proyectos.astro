@@ -1,29 +1,33 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getEntry, render } from 'astro:content';
-
-// Leemos la entrada 'proyectos' dentro de la colección 'projects'
-const entry = await getEntry('projects', 'proyectos');
-
-if (!entry) {
-  throw new Error("No se encontró el archivo proyectos.mdx en src/content/projects/");
-}
-
-const { Content } = await render(entry);
+import ProyectoCard from '../components/ProyectoCard.astro';
 ---
 
-<BaseLayout>
-  <div class="proyectos-container">
-    <Content />
-  </div>
-</BaseLayout>
+<BaseLayout title="Mi Portafolio - Proyectos">
+  <section class="proyectos-container bg-slate-50 max-w-6xl mx-auto px-6 py-12 rounded-2xl shadow-inner">
+    <h1 class="text-3xl md:text-4xl font-extrabold text-slate-800 text-center mb-3 tracking-tight font-display">Mis Proyectos</h1>
+    <p class="text-center text-slate-500 text-base mb-10">Selecciona un proyecto para ver los detalles y valorar con estrellas.</p>
 
-<style>
-  .proyectos-container {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 2rem;
-    color: #1e293b;
-  }
-</style>
+    <div class="proyectos-grid grid grid-cols-1 md:grid-cols-2 gap-8">
+      <ProyectoCard
+        nombre="Juego Del Amor"
+        slug="juego-del-amor"
+        imagen="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000&auto=format&fit=crop"
+        categoria="Juego Web / Fútbol"
+        estado="completado"
+        descripcion="Adivina el futbolista con pistas reveladas. Un juego interactivo para los amantes del fútbol con sistema de racha, puntos y desafíos diarios."
+        link="https://ferminblancoramirez.github.io/JuegoDelAmor/"
+      />
+
+      <ProyectoCard
+        nombre="Cartas Digitales Villaverde"
+        slug="cartas-digitales"
+        imagen="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1000&auto=format&fit=crop"
+        categoria="E-Commerce / Diseño Web"
+        estado="completado"
+        descripcion="Landing profesional para vender cartas digitales de menú a restaurantes. Modelos clásicos, modernos y híbridos con precios transparentes, demo en vivo y contacto directo por WhatsApp."
+        link="https://carta-digital-gamma.vercel.app/"
+      />
+    </div>
+  </section>
+</BaseLayout>

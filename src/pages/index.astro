@@ -1,36 +1,150 @@
 ---
 import Card from "../components/Card.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import "../styles/global.css";
 
-// se ejecuta en el servidor
-const nombre = "Fermin";
-const luchadoresUFC = [
-	"Alexander Volkanovsky",
-	"Khamzat Chimaev",
-	"Jon Jones",
-	"Alexandre Pantoja",
-	"Kevin Vallejos",
+// Datos de los Top 5 Mejores Jugadores de la Historia del Fútbol (todos en español)
+const leyendas = [
+  {
+    nombre: "Pelé",
+    nacionalidad: "Brasil",
+    posicion: "Delantero",
+    anosActivo: "1956 - 1977",
+    imagen: "https://static.dw.com/image/61527609_803.jpg",
+    ranking: 1,
+    logros: [
+      "3 Copas del Mundo (1958, 1962, 1970)",
+      "1281 goles en más de 1400 partidos",
+      "Medalla de oro olímpica (1960)"
+    ],
+    stats: {
+      goles: 1281,
+      partidos: 1400,
+      titulos: 20,
+      balonesOro: 0
+    }
+  },
+  {
+    nombre: "Diego Maradona",
+    nacionalidad: "Argentina",
+    posicion: "Mediocampista",
+    anosActivo: "1976 - 1997",
+    imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmN2pxGE2XbKQUAzhMDZCKlRQof_Fo5NVrgevsoIl1jg&s=10",
+    ranking: 2,
+    logros: [
+      "Copa Mundial 1986",
+      "Bola de Oro 1986",
+      "Subcampeón Mundial 1990"
+    ],
+    stats: {
+      goles: 805,
+      partidos: 1000,
+      titulos: 15,
+      balonesOro: 1
+    }
+  },
+  {
+    nombre: "Lionel Messi",
+    nacionalidad: "Argentina",
+    posicion: "Delantero",
+    anosActivo: "2004 - presente",
+    imagen: "https://sportal365images.com/process/smp-images-production/assets/25032026/434577b9-2069-4cb0-9b7a-336cb477eb40.png?operations=crop(0:65:945:1011)",
+    ranking: 3,
+    logros: [
+      "8 Balones de Oro (2009-2012, 2015, 2019, 2021)",
+      "Máximo goleador histórico de Barcelona",
+      "Copa Mundial 2022"
+    ],
+    stats: {
+      goles: 803,
+      partidos: 950,
+      titulos: 45,
+      balonesOro: 8
+    }
+  },
+  {
+    nombre: "Cristiano Ronaldo",
+    nacionalidad: "Portugal",
+    posicion: "Delantero",
+    anosActivo: "2002 - presente",
+    imagen: "https://images.daznservices.com/di/library/DAZN_News/91/8c/cristiano-ronaldo-champions-league_17ak1udoiuj631316hlbv1bi1i.png?t=37193869",
+    ranking: 4,
+    logros: [
+      "5 Balones de Oro (2008, 2011-2014, 2016)",
+      "Máximo goleador histórico de Portugal",
+      "Goleador histórico de ligas top europeas"
+    ],
+    stats: {
+      goles: 895,
+      partidos: 1200,
+      titulos: 35,
+      balonesOro: 5
+    }
+  },
+  {
+    nombre: "Johan Cruyff",
+    nacionalidad: "Países Bajos",
+    posicion: "Delantero/Mediocampista",
+    anosActivo: "1964 - 1984",
+    imagen: "https://i.redd.it/cagqq85i9xo61.jpg",
+    ranking: 5,
+    logros: [
+      "3 Balones de Oro (1971, 1973, 1974)",
+      "Debutó el 'Fútbol Total'"
+    ],
+    stats: {
+      goles: 400,
+      partidos: 600,
+      titulos: 35,
+      balonesOro: 3
+    }
+  }
 ];
+
+const maxStats = {
+  goles: 1281,
+  partidos: 1400,
+  titulos: 45,
+  balonesOro: 8
+};
 ---
 
-<BaseLayout title="Mi Portafolio - Inicio">
-	<script>
-		const valor = 5;
-	</script>
-	<style>
-		h1 {
-			color: #4f4f4f;
-			text-align: center;
-			font-size: xx-large;
-		}
-	</style>
+<BaseLayout title="Mi Portafolio - Inicio - Top 5 Leyendas del Fútbol">
+  <div class="container">
+    <!-- Hero Section -->
+    <section class="hero">
+      <h1>Los 5 Mejores Jugadores de la Historia del Fútbol</h1>
+      <p style="font-size: 1.2rem; color: #4b5563; max-width: 600px; margin: var(--space-4) auto 0;">
+        Descubre a las verdaderas leyendas que definieron el deporte rey durante décadas.
+        <br>Una comparación única basada en goles, títulos y logros históricos.
+      </p>
+    </section>
 
-	<h1>Mi primera pagina en astro</h1>
-	<p>Yo me llamo {nombre}</p>
-	<h2>Luchadores UFC top pero random</h2>
-	<ul>
-		{luchadoresUFC.map((luchador) => <li>{luchador}</li>)}
-	</ul>
-	<Card imagen="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlpILPAgyLslwF8VCcmMe14kQVGPSDNJz6e1ji-gVt8lJcx-Y3czkqa2w&s=10" 
-	titulo="El mejor de la historia" texto="Doble campeon, media vida peleando en la mejor division del mundo y sin una derrota"/>
+    <!-- Grid de jugadores -->
+    <section style="
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: var(--space-6);
+      margin-top: var(--space-6);
+    ">
+      {leyendas.map(jugador => (
+        <Card
+          nombre={jugador.nombre}
+          nacionalidad={jugador.nacionalidad}
+          posicion={jugador.posicion}
+          anosActivo={jugador.anosActivo}
+          imagen={jugador.imagen}
+          ranking={jugador.ranking}
+          logros={jugador.logros}
+          stats={jugador.stats}
+          maxStats={maxStats}
+        />
+      ))}
+    </section>
+
+    <!-- Nota informativa -->
+    <section class="footer">
+      <p>📊 <strong>Nota:</strong> Las estadísticas pueden variar según la fuente y son aproximadas para fines comparativos.</p>
+    </section>
+  </div>
 </BaseLayout>

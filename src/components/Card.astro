@@ -1,46 +1,225 @@
 ---
-const { imagen, titulo, texto } = Astro.props;
+interface Props {
+  // Info básica del jugador
+  nombre: string;
+  nacionalidad: string;
+  posicion: string;
+  anosActivo: string;
+  imagen: string;
+  ranking: number; // 1-5
+
+  // Logros
+  logros: string[];
+
+  // Stats para comparación
+  stats: {
+    goles: number;
+    partidos: number;
+    titulos: number;
+    balonesOro: number;
+  };
+
+  // Referencia de máximos para barras de progreso
+  maxStats?: {
+    goles: number;
+    partidos: number;
+    titulos: number;
+    balonesOro: number;
+  };
+}
+
+const {
+  nombre,
+  nacionalidad,
+  posicion,
+  anosActivo,
+  imagen,
+  ranking,
+  logros,
+  stats,
+  maxStats = { goles: 1000, partidos: 1200, titulos: 40, balonesOro: 8 },
+} = Astro.props;
+
+// Calcular porcentajes para barras de progreso
+const getPercentage = (value: number, max: number) => Math.min(100, Math.round((value / max) * 100));
+
+const rankingClass = ["one", "two", "three", "four", "five"][ranking - 1] || "five";
+const rankingLabel = ["1º", "2º", "3º", "4º", "5º"][ranking - 1] || String(ranking);
+
+// Colores de borde según ranking
+const borderColor = ranking <= 3 ? "var(--football-gold)" : "var(--football-silver)";
+const badgeColorClass = `ranking-badge ${rankingClass}`;
 ---
 
-<div>
-  <!-- Imagen y Título al lado -->
-  <div>
-    <img src={imagen} />
-    <h2>{titulo}</h2>
+<article class="player-card" style="border-color: {borderColor};">
+  <!-- Ranking badge -->
+  <div class="ranking-badge-wrapper" style="margin-bottom: var(--space-3);">
+    <span class={badgeColorClass}>{rankingLabel}</span>
   </div>
 
-  <!-- Texto debajo de ambos -->
-  <p>{texto}</p>
-</div>
+  <!-- Imagen y nombre -->
+  <div class="player-header" style="display: flex; align-items: center; gap: var(--space-4); margin-bottom: var(--space-4);">
+    <img
+      src={imagen}
+      alt={nombre}
+      style="
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--football-gold);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      "
+      loading="lazy"
+    />
+    <div>
+      <h2 style="margin: 0; font-size: 1.4rem; font-weight: 800; color: var(--pitch-dark);">{nombre}</h2>
+      <p style="margin: var(--space-1) 0 0; color: #4b5563; font-size: 0.9rem;">
+        <span style="font-weight: 600;">{nacionalidad}</span> · {posicion}
+      </p>
+      <p style="margin: var(--space-1) 0 0; font-size: 0.8rem; color: #6b7280;">
+        {anosActivo}
+      </p>
+    </div>
+  </div>
+
+  <!-- Logros -->
+  <div class="achievements" style="margin-bottom: var(--space-4);">
+    <h3 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: #374151; margin: 0 0 var(--space-2);">Logros Destacados</h3>
+    <ul style="margin: 0; padding-left: var(--space-4); list-style: none;">
+      {logros.map(logro => (
+        <li style="position: relative; padding-left: var(--space-3); margin-bottom: var(--space-1); font-size: 0.85rem; color: #4b5563;">
+          <span style="position: absolute; left: 0; color: var(--football-gold);">⚽</span>
+          {logro}
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- Comparativa de Stats -->
+  <div class="stats-comparison">
+    <h3 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: #374151; margin: 0 0 var(--space-3);">Estadísticas de Carrera</h3>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-value">{stats.goles.toLocaleString()}</div>
+        <div class="stat-label">Goles</div>
+        <div style="height: 6px; background: #e5e7eb; border-radius: 3px; margin-top: var(--space-1); overflow: hidden;">
+          <div style="
+            width: {getPercentage(stats.goles, maxStats.goles)}%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--football-gold), #f59e0b);
+            border-radius: 3px;
+            transition: width 0.8s ease-out;
+          "></div>
+        </div>
+      </div>
+
+      <div class="stat-item">
+        <div class="stat-value">{stats.partidos.toLocaleString()}</div>
+        <div class="stat-label">Partidos</div>
+        <div style="height: 6px; background: #e5e7eb; border-radius: 3px; margin-top: var(--space-1); overflow: hidden;">
+          <div style="
+            width: {getPercentage(stats.partidos, maxStats.partidos)}%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--pitch-green), var(--pitch-light));
+            border-radius: 3px;
+            transition: width 0.8s ease-out;
+          "></div>
+        </div>
+      </div>
+
+      <div class="stat-item">
+        <div class="stat-value">{stats.titulos}</div>
+        <div class="stat-label">Títulos</div>
+        <div style="height: 6px; background: #e5e7eb; border-radius: 3px; margin-top: var(--space-1); overflow: hidden;">
+          <div style="
+            width: {getPercentage(stats.titulos, maxStats.titulos)}%;
+            height: 100%;
+            background: linear-gradient(90deg, #4338ca, #6366f1);
+            border-radius: 3px;
+            transition: width 0.8s ease-out;
+          "></div>
+        </div>
+      </div>
+
+      <div class="stat-item">
+        <div class="stat-value">{stats.balonesOro}</div>
+        <div class="stat-label">Balones de Oro</div>
+        <div style="height: 6px; background: #e5e7eb; border-radius: 3px; margin-top: var(--space-1); overflow: hidden;">
+          <div style="
+            width: {getPercentage(stats.balonesOro, maxStats.balonesOro)}%;
+            height: 100%;
+            background: linear-gradient(90deg, #cd7f32, #fbbf24);
+            border-radius: 3px;
+            transition: width 0.8s ease-out;
+          "></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
 
 <style>
-  div {
-    border: 1px solid #ccc;
-    padding: 16px;
-    max-width: 400px;
-  }
-
-  div > div {
+  .player-card {
+    background: var(--football-white);
+    border: 2px solid;
+    border-radius: var(--radius-player);
+    padding: var(--space-4);
+    box-shadow: var(--shadow-player);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
     display: flex;
-    align-items: center;
-    gap: 15px;
-    border: none;
-    padding: 0;
+    flex-direction: column;
   }
 
-  img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
+  .player-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-gold);
   }
 
-  h2 {
-    margin: 0;
-    font-size: 24px;
+  .ranking-badge-wrapper {
+    text-align: left;
   }
 
-  p {
-    margin-top: 15px;
-    margin-bottom: 0;
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+
+  .stat-item {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: var(--radius-card);
+    padding: var(--space-3);
+    text-align: center;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--pitch-dark);
+    font-family: var(--font-display);
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: var(--space-1);
+  }
+
+  /* Responsive para móviles */
+  @media (max-width: 640px) {
+    .stats-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

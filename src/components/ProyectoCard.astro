@@ -1,0 +1,41 @@
+---
+import StarRating from './StarRating.astro';
+import "../styles/global.css";
+interface Props {
+  nombre: string;
+  slug: string;
+  imagen: string;
+  categoria: string;
+  estado: string;
+  descripcion: string;
+  link: string;
+}
+
+const { nombre, slug, imagen, categoria, estado, descripcion, link } = Astro.props;
+
+const badgeColor = estado === "completado" ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700";
+---
+
+<article class="proyecto-card bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-slate-200">
+  <div class="card-header bg-slate-50 px-6 py-4 border-b border-slate-200 flex justify-between items-start">
+    <h3 class="card-title text-xl font-bold text-slate-800 m-0">{nombre}</h3>
+    <span class={`badge px-3 py-1 rounded-md text-xs font-bold uppercase ${badgeColor}`}>{estado}</span>
+  </div>
+
+  <div class="card-body">
+    <div class="preview mb-4">
+      <img src={imagen} alt={nombre} loading="lazy" class="w-full h-48 object-cover rounded-t-xl" />
+    </div>
+    <p class="card-desc px-6 text-slate-500 text-sm leading-relaxed mb-4">{descripcion}</p>
+
+    <!-- Estrellas integradas dentro de la card -->
+    <div class="rating-section px-6 pb-2">
+      <StarRating projectId={slug} />
+    </div>
+
+    <div class="card-footer px-6 pb-6 pt-2 flex justify-between items-center">
+      <span class="categoria bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-medium">{categoria}</span>
+      <a href={link} target="_blank" class="project-link text-blue-600 font-medium text-sm hover:text-blue-800 hover:underline">Ver proyecto →</a>
+    </div>
+  </div>
+</article>
