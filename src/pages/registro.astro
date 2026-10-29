@@ -1,0 +1,31 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+
+---
+
+<BaseLayout>
+    <form action="">
+        <label for="">Suscribete a mi boletin informativo</label>
+        <input type="email" id="email">
+        <button type="submit">Suscribete</button>
+    </form>
+</BaseLayout>
+
+<script>
+import { actions } from "astro:actions"
+
+
+    const form = document.querySelector("#newsletter") as HTMLFormElement
+    form?.addEventListener("submit", guardarEmail)
+
+    async function guardarEmail(event: SubmitEvent){
+        event.preventDefault()
+
+        const {data, error} = await actions.newsletter({email: "prueba"})
+
+        console.log("Email guardado!!")
+        form?.reset();
+    }
+
+</script>
